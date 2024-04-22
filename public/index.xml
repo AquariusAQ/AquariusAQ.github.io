@@ -2,18 +2,46 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>段晗祈</title>
-    <link>https://example.org/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on 段晗祈</description>
     <generator>Hugo 0.125.2</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 22 Apr 2024 14:20:03 +0800</lastBuildDate>
-    <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 22 Apr 2024 15:48:22 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Frp内网穿透参数设置</title>
+      <link>http://localhost:1313/post/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE/</link>
+      <pubDate>Mon, 22 Apr 2024 15:48:22 +0800</pubDate>
+      <guid>http://localhost:1313/post/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE/</guid>
+      <description>原发布于2021年4月22日 http://blog.gensou.cc/archives/669&#xA;Frp内网穿透的教程各大博客都能找到，但具体参数很少有讲清楚的。这里个人对已学习的部分参数做笔记以供参考。这里的需求是一台内网设备映射多个端口至一台公网设备。&#xA;服务端（公网设备） 在Frp穿透中，公网设备是服务端，配置在frps.ini中设置&#xA;[common] bind_port = 7000 vhost_http_port = 8080 [common]&#xA;bind_port是必须设置的端口，这个参数的端口在公网设备使用、用来在公网设备和内网设备沟通。&#xA;vhost_http_port是当有http映射时，如果设置，作为默认的端口，这个参数的端口在公网设备使用、用来其他任意客户端打开映射的网站时访问的端口，即访问：公网设备IP:vhost_http_port。&#xA;需要开放的端口&#xA;bind_port（这里为7000）&#xA;所有其他客户端访问公网ip时需要访问的端口，包括公网设备的frps.ini中的vhost_http_port和内网设备的frpc.ini中的所有remote_port（后面介绍）。&#xA;客户端（内网设备） 在Frp穿透中，内网设备是客户端，配置在frpc.ini中设置&#xA;[common] server_addr = 106.x.x.x server_port = 7000 [web] type = http local_ip = 127.0.0.1 local_port = 9091 custom_domains = 106.x.x.x [ssh] type = tcp local_ip = 127.0.0.1 local_port = 22 remote_port = 8081 [common]&#xA;server_addr填写公网设备的IP。&#xA;server_port填写公网设备用于与内网设备沟通的端口，即和服务端的frps.ini的bind_port相同。&#xA;[web]&#xA;type是映射类型，这里需要映射网站，填写http。 在http映射中，需要设置本地架设网站的ip和端口（即在本机浏览器上访问网站的ip和端口），这个端口是网站后端监听的端口（这里例子为9091），而其他客户端要访问网站，需要的是外网设备ip和映射端口（这里例子为106.x.x.x:8080），这个端口需要在本地开放。&#xA;local_ip是网页IP，通常是127.0.0.1，即本机。&#xA;local_port是网页端口。&#xA;custom_domains是网页的域名，必须填写；如果没有域名，可以填写外网设备的IP。&#xA;[ssh]&#xA;type是映射类型，这里需要映射ssh，填写tcp。&#xA;local_ip是本地SSH的IP，通常是127.0.0.1，即本机。&#xA;local_port是本地SSH的端口，通常是22。&#xA;remote_port是本地该端口映射到外网设备后，其他客户端需要访问本地时需要访问的端口，即其他客户端连接ssh实际需要访问的端口（这里例子为106.x.x.x:8081），这个端口需要在外网设备开放。</description>
+    </item>
+    <item>
+      <title>C&#43;&#43;STL之unordered_map用法简析,从造轮子到用轮子</title>
+      <link>http://localhost:1313/post/c&#43;&#43;stl%E4%B9%8Bunordered_map%E7%94%A8%E6%B3%95%E7%AE%80%E6%9E%90%E4%BB%8E%E9%80%A0%E8%BD%AE%E5%AD%90%E5%88%B0%E7%94%A8%E8%BD%AE%E5%AD%90/</link>
+      <pubDate>Mon, 22 Apr 2024 15:42:29 +0800</pubDate>
+      <guid>http://localhost:1313/post/c&#43;&#43;stl%E4%B9%8Bunordered_map%E7%94%A8%E6%B3%95%E7%AE%80%E6%9E%90%E4%BB%8E%E9%80%A0%E8%BD%AE%E5%AD%90%E5%88%B0%E7%94%A8%E8%BD%AE%E5%AD%90/</guid>
+      <description>原发布于2020年5月15日 http://blog.gensou.cc/archives/346&#xA;unordered_map是C++11中加入的，以哈希表为索引方式的STL结构。与map不同，unordered_map寻找索引的值的理论时间复杂度仅为O(1)，而依靠红黑树的map是O(logn)。&#xA;要理解unordered_map的运作原理，首先来造个轮子，写个自己的哈希表寻址结构。&#xA;Hash值是每个数据某个数据（比如是key）通过运算得到的某个数值，将该数据放进整个结构（比如数组）中以这个Hash值为索引的地址中，就类似于把数据倒入桶中。当需要找到某个key值对应的数据时，也同样算出Hash值，然后直接在结构中寻找就可以。由于数组的地址连贯性，Hash值作为索引可以直接计算出数据所在的地址，因此时间复杂度仅为O(1)。&#xA;造个Hash Table试试 首先是用到的数据的结构Record：&#xA;class Record { private: int key; int value; public: int the_key() { return key; } int the_value() { return value; } Record() { key = value = -1; } Record(int k, int v) : key(k), value(v) {} bool operator==(Record r) { return the_value() == r.the_value(); } //相等 Record operator=(Record r); //赋值构造函数 //...以及更多需要的函数 }; 定义好了key和value，写好构造函数并且重载部分需要的操作符（具体略）。然后是利用Hash值寻址的结构hash_table。&#xA;enum Error_code { not_present, overflow, deplicate_error, success }; const int hash_size = 100; class hash_table { private: Record table[hash_size]; int hash(Record r)； //获得某个Record的Hash值 bool is_empty(int index) { return table[index].</description>
+    </item>
+    <item>
+      <title>断章取义&#43;字义不明=表意偏差</title>
+      <link>http://localhost:1313/post/%E6%96%AD%E7%AB%A0%E5%8F%96%E4%B9%89&#43;%E5%AD%97%E4%B9%89%E4%B8%8D%E6%98%8E%E8%A1%A8%E6%84%8F%E5%81%8F%E5%B7%AE/</link>
+      <pubDate>Mon, 22 Apr 2024 15:32:55 +0800</pubDate>
+      <guid>http://localhost:1313/post/%E6%96%AD%E7%AB%A0%E5%8F%96%E4%B9%89&#43;%E5%AD%97%E4%B9%89%E4%B8%8D%E6%98%8E%E8%A1%A8%E6%84%8F%E5%81%8F%E5%B7%AE/</guid>
+      <description>原发布于2020年4月19日 http://blog.gensou.cc/archives/262&#xA;——聊聊社群给路人留下坏印象的原因之一 首先先看这么一个简单的句式：&#xA;“A是B。”&#xA;这是一个十分基本的动词谓语主谓句。如果按照这个句式，并且不带上任何状语，根据A和B的词性，可以理解成凡是满足A条件、或者属于A群体、或者具备A属性的所有个体，无一例外地，满足B条件、或者属于B群体、或者具备B属性。&#xA;举个例子：偷窃是违法行为。 很容易理解，这句话是指，凡是符合“偷窃”的定义的行为，都是违法的行为。这里的“偷窃”倘若按照法律中的定义的话，这句话是正确的。同时一般地，也可以推导出下一个结论：凡是满足了“偷窃”这个条件的人，都是做了违法行为的人。&#xA;再举个例子：吸血鬼是不存在的。 可以同样理解，这句话是指，凡是符合吸血鬼定义的生物，都是不存在于世界上的。从字面的理解，可以将某作品中对吸血鬼的定义作为此句中的定义，“不存在”理解为不能在我们生活着的这个地球上找到。那么这样看来，这句话是正确的，世界上没吸血鬼（姑且这样认为吧）。&#xA;最后一个例子：今天的晚饭是西红柿炒鸡蛋。 这里的A限定成为了唯一的事物：今天的晚饭。但这句话并不是一个正确性绝对的称述，取决于不同时间、不同人物，这只是对某一件特殊事件的称述，而其特殊性没有被限定。只有拥有了足够的额外限定，这个时候正确性才能被确定。 那么这句话使人们的言论发生了什么偏差呢？&#xA;断章取义 语句往往是带有上下文语境的，断章取义常常摧毁一个语句。继续聊聊例子吧。如果在例（3）中，加上完整的背景：&#xA;到晚上了，大家在萨〇亚里聚餐。 你翻开了萨〇亚的菜单，发现菜单里没有西红柿炒鸡蛋。 你旁边的十分要好的朋友说：“今天的晚饭是西红柿炒鸡蛋。” 这个时候，你说：&#xA;“去你的，晚餐怎么可能是西红柿炒鸡蛋。” 可是很不幸运地，这句话被某个听者单独提了出来，作为了你的“名言”。许多本来不怀恶意的人，因为不了解背景，可能会这样发表看法：&#xA;“晚餐怎么不能是西红柿炒鸡蛋了？” “你开除了西红柿炒鸡蛋的食物籍？” “这人估计就是不喜欢吃西红柿炒鸡蛋吧，怎么还非要别人赞同的。” “不喜欢就不喜欢吧，怎么还对别人说不尊敬的话了？” 最后，你被迫在各社交媒体，向所有产蛋的鸡和西红柿公开道歉了，因为这是最快最方便的解决你的个人形象危机问题的办法；向所有人解释事件的背景，反而效率低、并且他人不相信、甚至认为你在为自己辩解。&#xA;当然，以上只是一个玩笑话了，现实中应该挺难见到对西红柿炒鸡蛋会大做文章的人（存疑？）。不过很多看起来非常奇怪的论断，往往作用机理就是这样的断章取义。&#xA;例如，现代人在引用他人的话的时候，如果是为了表现他人言论的某种观点，最热衷于使用的方法之一是QQ聊天记录选段。较新版本的QQ甚至具备了隔行选取部分聊天记录截图的功能。为了佐证自己对某人的论断，出于人之常情，往往截取的是对自己有利的部分；而更加讲究效率，或者是偷了个懒的人，对言论背景的截取就更少了。致使，QQ聊天记录是最能歪解他人真实观点的工具之一（当然不是指但凡聊天记录就是歪解，而是说十分容易用于歪解）。而聊天记录往往是人们确信不疑的，毕竟，每一句话、每一个字、每一个符号，都是聊天记录的主人亲手输入的。&#xA;因此，也同时小小的倡议大家，对聊天记录不应随意照单全收。主观意识中认为“就这句话，不带上下文，也可以看出这个人有XX的特点”的想法，都有可能最终证实是不符合现实状况的。&#xA;在理想情况中，人面对一个言论的截取片段，都应该带上十足的存疑精神，只有深入调查过背景，才能拥有发表一个实事求是的评价的必要条件。&#xA;然而事实上不可能有人对任何想发表评论的事情都能做到完全调查清楚，时间有限，精力也有限，事件的一些真相也并没有办法为人所知。因此，个人给出以下一些小建议，欢迎各位指出不足、添删改查：&#xA;对事件，尽量不要在仅掌握少量情报的时候，就发表明显超过可推测事实的决断性言论。 对他人立场鲜明、直指矛头的观点，尽量不要盲信盲从、盲目跟风，最好带上自己的思考。 对于某些暂时似乎已经盖棺定论的事件，也要做好结局反转的可能性的心理准备。 额外建议：少动怒，多讲理。少扣帽子，多给建议。尽量文明用语，拒绝阴阳讽刺。 字义不明 字义不明往往是另一个使人对言论产生错误理解的原因。不明的表现可能是没有结合上下文的会错意，也有可能是谈及的某物没有自洽的定义，或者发表言论者本人忘记了对自己说的某句话中的某个含义给出在这句话中的定义，等等。&#xA;还是看例子，例（2）：“吸血鬼是不存在的。”&#xA;“吸血鬼存在吗？” 如果你朋友冷不丁地问了这么一个问题，你是否会充满了问号？&#xA;吸血鬼是什么？靠吸生物血维生的亡灵生物？尽管500岁依然娇小可爱的萝莉？还是比喻残酷欺压人的人？或者是不干活只向别人索取来享乐的人？ 存在是怎么存在？就在我们日常生活中？在我昨天安利给他的游戏中？在世界上任何能找到的文学作品中？在大脑的概念中？ 这个时候，你可能会丢下一句“你说啥”，让他再详细阐明一下问题。&#xA;同样地，很多人在公开发表言论的时候，也像这个问题一样，对自己实际想要论述的概念，没有做好准确的界定。然而不同的是，以下的情况使观点准确表达产生了困难：&#xA;某个词在语境中十分偏向于某个概念，让人自然向这方面理解，然而实际想要表达的却和这有偏差； 某个词的概念十分模糊，但是听众缺少能够直接向发言人提问以明确概念的途径； 发言人为了达到渲染情感的作用，特地采用了夸张手法，然而听众没能会意，过大地理解了问题的严重性等； 发言人对词语、或者对想要表达的现象的理解偏差，致使真实观点没能传达给听众； 发言者的整体说话语气，也会使不同听众对某个词的概念产生不同的理解，而发言者本身可能没有意识到这一点； …… 发言人的观点，经由自己的说出来的一个个词语，到听众的耳中，最后解析为大脑中的理解，环节很多，容易产生偏差的地方更多。甚至，每个人的理解也随着每个人的立场不同、参与度不同、潜意识不同而产生变化。因此，想要非常大程度上的提高用词的准确性，难度同样不小。&#xA;表意偏差 断章取义和字义不明，往往是言论不能好好地传达的重要因素，也是歪解他人观点的一大武器。&#xA;这是很自然的现象，字义不明往往使得一个句子单独列出来无法具有意义，而断章取义又正好割去了让这个单独不达意的句子失去了让他被人理解的最后途径。单独截取出一句话的下场，往往是表达的心意发生了很大的偏差。&#xA;然而，对于断章取义，暂时还没有找到很好地主动防卫措施。毕竟，没有办法给每段言论加上一个MD5码永远跟着文章走，同时还方便大家取证。面对他人的断章取义，若要为自己辩白，只能兵来将挡水来土掩，针对他人截取的内容放出更完整的内容来。如果有更好的主动防止他人对自己言论的断章取义的办法，请务必及时教授我。&#xA;因此，发言者能做到的，主要只有多检查、多斟酌，站在自己和大多数听众的角度上理解自己的发言是否将会传达自己的真实想法。尤其是影响力大的人物，常常一句话带动的是社群中的整体风气走向。这个时候，如果希望社群健康发展，打个比方，最好拥有一种“被迫”发布准确言论的自觉性，对每一句话负起责来，其重要性不言而喻。&#xA;紧接着来看一个案例（内容全属我杜撰，如有雷同，纯属巧合）：&#xA;圈内有很多乌烟瘴气的地方，例如同好群等等。 ——某句可能被数万读者阅读到的言论&#xA;这句话一经出现便让人感觉到非常难受，怎么QQ群摇身一变就变成乌烟瘴气的场所了呢？这么多用户就被一竿子打翻一船鸭子了？这像什么话？&#xA;首先，我们联系一下上下文。这句话所处的原文是在谈论，社群不是乌托邦，同好圈并不是铁板一块，其中含有不少毒害同好思想、使路人畏不敢入的成分；同时，区别开了IP与IP同好社群，不应该将社群现象都作为IP内容一股脑地接纳。&#xA;从这个意义上讲，文章的出发点是好的。其作者想在这句话中表达的意思，也自然是警醒读者对同好群里的各种言谈理性对待。结合前后两句话：&#xA;圈子里面并不是每个社交平台都是传达正能量的人在发表言论。 圈内有很多乌烟瘴气的地方，例如同好群等等。 个人最重要的是明辨是非，不要被偏激的看法洗了脑。&#xA;——包含先前没有被引用的部分的同义句言论 前后句被引用进来之后，“同好群”的概念也明晰了，这句话中的“同好群”不是普遍概念，而是集合体概念。换句话说，不是指同好群每个都是乌烟瘴气的，而是指同好群并不是一个完全由正能量组成的平台，有的同好群有的时候会产生具有负能量的言论。&#xA;再来看另一个案例（同样，事件和评论内容全属我杜撰，如有雷同，纯属巧合）：&#xA;感觉圈子里混进了一些借势搞事的小鬼。 ——对某件被从一方角度客观称述的事件发表的评论</description>
+    </item>
+    <item>
+      <title>关于我</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 22 Apr 2024 15:25:53 +0800</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description> 我的学业&#xA;目前正在攻读 PhD 就读于国内985 方向为深度学习及图神经网络 我的爱好&#xA;旅游，享受各地的人文景观和美事，享受火车旅行的快乐。 动漫，比较感兴趣的包括 东方Project 和 世界诶计划缤纷舞台。 Minecraft 联系我&#xA;邮箱：Aquarius@gensokyo.uu.me </description>
+    </item>
     <item>
       <title>博客搭建总结报告</title>
-      <link>https://example.org/post/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%80%BB%E7%BB%93%E6%8A%A5%E5%91%8A/</link>
+      <link>http://localhost:1313/post/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%80%BB%E7%BB%93%E6%8A%A5%E5%91%8A/</link>
       <pubDate>Mon, 22 Apr 2024 14:20:03 +0800</pubDate>
-      <guid>https://example.org/post/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%80%BB%E7%BB%93%E6%8A%A5%E5%91%8A/</guid>
-      <description></description>
+      <guid>http://localhost:1313/post/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%80%BB%E7%BB%93%E6%8A%A5%E5%91%8A/</guid>
+      <description>2024 春季学期第一次作业总结报告 段晗祈 52285903003&#xA;博客搭建流程 1 博客本地搭建 新建 hugo 博客工程 在下载了 hugo 的目录下使用命令行输入 （hugo release页面：https://github.com/gohugoio/hugo/releases/） ./hugo new site myblog hugo 主题选择 hugo 主页： https://themes.gohugo.io/ 选取主题：m10c （https://themes.gohugo.io/themes/hugo-theme-m10c/） cd myblog git clone https://github.com/vaga/hugo-theme-m10c.git themes/m10c 配置修改 在 hugo.toml 中修改配置 &amp;lt;!-- 指定主题 --&amp;gt; theme = &amp;#34;m10c&amp;#34; &amp;lt;!-- 设置目录中的首页，文章列表和关于页面 --&amp;gt; [menu] [[menu.main]] identifier = &amp;#34;home&amp;#34; name = &amp;#34;Home&amp;#34; url = &amp;#34;/&amp;#34; weight = 1 [[menu.main]] identifier = &amp;#34;tags&amp;#34; name = &amp;#34;Tags&amp;#34; url = &amp;#34;/tags/&amp;#34; weight = 2 [[menu.</description>
     </item>
   </channel>
 </rss>

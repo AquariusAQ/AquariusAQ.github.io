@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <title>Frp内网穿透参数设置 // 段晗祈</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.125.2">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="段晗祈" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.5b1fcc8902588589c4767187402a3c29f8b8d7a6fdef6d9f8f77045bb0d14fee.css" />
+    
+
+    
+  
+
+
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Frp内网穿透参数设置">
+<meta name="twitter:description" content="原发布于2021年4月22日 http://blog.gensou.cc/archives/669
+Frp内网穿透的教程各大博客都能找到，但具体参数很少有讲清楚的。这里个人对已学习的部分参数做笔记以供参考。这里的需求是一台内网设备映射多个端口至一台公网设备。
+服务端（公网设备） 在Frp穿透中，公网设备是服务端，配置在frps.ini中设置
+[common] bind_port = 7000 vhost_http_port = 8080 [common]
+bind_port是必须设置的端口，这个参数的端口在公网设备使用、用来在公网设备和内网设备沟通。
+vhost_http_port是当有http映射时，如果设置，作为默认的端口，这个参数的端口在公网设备使用、用来其他任意客户端打开映射的网站时访问的端口，即访问：公网设备IP:vhost_http_port。
+需要开放的端口
+bind_port（这里为7000）
+所有其他客户端访问公网ip时需要访问的端口，包括公网设备的frps.ini中的vhost_http_port和内网设备的frpc.ini中的所有remote_port（后面介绍）。
+客户端（内网设备） 在Frp穿透中，内网设备是客户端，配置在frpc.ini中设置
+[common] server_addr = 106.x.x.x server_port = 7000 [web] type = http local_ip = 127.0.0.1 local_port = 9091 custom_domains = 106.x.x.x [ssh] type = tcp local_ip = 127.0.0.1 local_port = 22 remote_port = 8081 [common]
+server_addr填写公网设备的IP。
+server_port填写公网设备用于与内网设备沟通的端口，即和服务端的frps.ini的bind_port相同。
+[web]
+type是映射类型，这里需要映射网站，填写http。 在http映射中，需要设置本地架设网站的ip和端口（即在本机浏览器上访问网站的ip和端口），这个端口是网站后端监听的端口（这里例子为9091），而其他客户端要访问网站，需要的是外网设备ip和映射端口（这里例子为106.x.x.x:8080），这个端口需要在本地开放。
+local_ip是网页IP，通常是127.0.0.1，即本机。
+local_port是网页端口。
+custom_domains是网页的域名，必须填写；如果没有域名，可以填写外网设备的IP。
+[ssh]
+type是映射类型，这里需要映射ssh，填写tcp。
+local_ip是本地SSH的IP，通常是127.0.0.1，即本机。
+local_port是本地SSH的端口，通常是22。
+remote_port是本地该端口映射到外网设备后，其他客户端需要访问本地时需要访问的端口，即其他客户端连接ssh实际需要访问的端口（这里例子为106.x.x.x:8081），这个端口需要在外网设备开放。">
+
+    <meta property="og:url" content="http://localhost:1313/post/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE/">
+  <meta property="og:site_name" content="段晗祈">
+  <meta property="og:title" content="Frp内网穿透参数设置">
+  <meta property="og:description" content="原发布于2021年4月22日 http://blog.gensou.cc/archives/669
+Frp内网穿透的教程各大博客都能找到，但具体参数很少有讲清楚的。这里个人对已学习的部分参数做笔记以供参考。这里的需求是一台内网设备映射多个端口至一台公网设备。
+服务端（公网设备） 在Frp穿透中，公网设备是服务端，配置在frps.ini中设置
+[common] bind_port = 7000 vhost_http_port = 8080 [common]
+bind_port是必须设置的端口，这个参数的端口在公网设备使用、用来在公网设备和内网设备沟通。
+vhost_http_port是当有http映射时，如果设置，作为默认的端口，这个参数的端口在公网设备使用、用来其他任意客户端打开映射的网站时访问的端口，即访问：公网设备IP:vhost_http_port。
+需要开放的端口
+bind_port（这里为7000）
+所有其他客户端访问公网ip时需要访问的端口，包括公网设备的frps.ini中的vhost_http_port和内网设备的frpc.ini中的所有remote_port（后面介绍）。
+客户端（内网设备） 在Frp穿透中，内网设备是客户端，配置在frpc.ini中设置
+[common] server_addr = 106.x.x.x server_port = 7000 [web] type = http local_ip = 127.0.0.1 local_port = 9091 custom_domains = 106.x.x.x [ssh] type = tcp local_ip = 127.0.0.1 local_port = 22 remote_port = 8081 [common]
+server_addr填写公网设备的IP。
+server_port填写公网设备用于与内网设备沟通的端口，即和服务端的frps.ini的bind_port相同。
+[web]
+type是映射类型，这里需要映射网站，填写http。 在http映射中，需要设置本地架设网站的ip和端口（即在本机浏览器上访问网站的ip和端口），这个端口是网站后端监听的端口（这里例子为9091），而其他客户端要访问网站，需要的是外网设备ip和映射端口（这里例子为106.x.x.x:8080），这个端口需要在本地开放。
+local_ip是网页IP，通常是127.0.0.1，即本机。
+local_port是网页端口。
+custom_domains是网页的域名，必须填写；如果没有域名，可以填写外网设备的IP。
+[ssh]
+type是映射类型，这里需要映射ssh，填写tcp。
+local_ip是本地SSH的IP，通常是127.0.0.1，即本机。
+local_port是本地SSH的端口，通常是22。
+remote_port是本地该端口映射到外网设备后，其他客户端需要访问本地时需要访问的端口，即其他客户端连接ssh实际需要访问的端口（这里例子为106.x.x.x:8081），这个端口需要在外网设备开放。">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-04-22T15:48:22+08:00">
+    <meta property="article:modified_time" content="2024-04-22T15:48:22+08:00">
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="http://localhost:1313/"><img class="app-header-avatar" src="/avatar.jpg" alt="段晗祈" /></a>
+      <span class="app-header-title">段晗祈</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/about/">About</a>
+      </nav>
+      <p>深度学习在读 PhD</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/AquariusAQ" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Frp内网穿透参数设置</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Apr 22, 2024
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p><em>原发布于2021年4月22日</em>
+<a href="http://blog.gensou.cc/archives/669">http://blog.gensou.cc/archives/669</a></p>
+<p>Frp内网穿透的教程各大博客都能找到，但具体参数很少有讲清楚的。这里个人对已学习的部分参数做笔记以供参考。这里的需求是一台内网设备映射多个端口至一台公网设备。</p>
+<h3 id="服务端公网设备">服务端（公网设备）</h3>
+<p>在Frp穿透中，公网设备是服务端，配置在frps.ini中设置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[common]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bind_port</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">7000</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">vhost_http_port</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">8080</span>
+</span></span></code></pre></div><p><strong>[common]</strong></p>
+<ul>
+<li>
+<p>bind_port是必须设置的端口，这个参数的端口在公网设备使用、用来在公网设备和内网设备沟通。</p>
+</li>
+<li>
+<p>vhost_http_port是当有http映射时，如果设置，作为默认的端口，这个参数的端口在公网设备使用、用来其他任意客户端打开映射的网站时访问的端口，即访问：公网设备IP:vhost_http_port。</p>
+</li>
+</ul>
+<p>需要开放的端口</p>
+<ul>
+<li>
+<p>bind_port（这里为7000）</p>
+</li>
+<li>
+<p>所有其他客户端访问公网ip时需要访问的端口，包括公网设备的frps.ini中的vhost_http_port和内网设备的frpc.ini中的所有remote_port（后面介绍）。</p>
+</li>
+</ul>
+<h3 id="客户端内网设备">客户端（内网设备）</h3>
+<p>在Frp穿透中，内网设备是客户端，配置在frpc.ini中设置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[common]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">server_addr</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">106.x.x.x</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">server_port</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">7000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[web]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">http</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">local_ip</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">127.0.0.1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">local_port</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">9091</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">custom_domains</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">106.x.x.x</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[ssh]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">tcp</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">local_ip</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">127.0.0.1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">local_port</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">22</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">remote_port</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">8081</span>
+</span></span></code></pre></div><p><strong>[common]</strong></p>
+<ul>
+<li>
+<p>server_addr填写公网设备的IP。</p>
+</li>
+<li>
+<p>server_port填写公网设备用于与内网设备沟通的端口，即和服务端的frps.ini的bind_port相同。</p>
+</li>
+</ul>
+<p><strong>[web]</strong></p>
+<ul>
+<li>
+<p>type是映射类型，这里需要映射网站，填写http。
+在http映射中，需要设置本地架设网站的ip和端口（即在本机浏览器上访问网站的ip和端口），这个端口是网站后端监听的端口（这里例子为9091），而其他客户端要访问网站，需要的是外网设备ip和映射端口（这里例子为106.x.x.x:8080），这个端口需要在本地开放。</p>
+</li>
+<li>
+<p>local_ip是网页IP，通常是127.0.0.1，即本机。</p>
+</li>
+<li>
+<p>local_port是网页端口。</p>
+</li>
+<li>
+<p>custom_domains是网页的域名，必须填写；如果没有域名，可以填写外网设备的IP。</p>
+</li>
+</ul>
+<p><strong>[ssh]</strong></p>
+<ul>
+<li>
+<p>type是映射类型，这里需要映射ssh，填写tcp。</p>
+</li>
+<li>
+<p>local_ip是本地SSH的IP，通常是127.0.0.1，即本机。</p>
+</li>
+<li>
+<p>local_port是本地SSH的端口，通常是22。</p>
+</li>
+<li>
+<p>remote_port是本地该端口映射到外网设备后，其他客户端需要访问本地时需要访问的端口，即其他客户端连接ssh实际需要访问的端口（这里例子为106.x.x.x:8081），这个端口需要在外网设备开放。</p>
+</li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <title>博客搭建总结报告 // 段晗祈</title>
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta charset="utf-8" />
@@ -16,12 +16,14 @@
 
 
     <meta name="twitter:card" content="summary"><meta name="twitter:title" content="博客搭建总结报告">
-<meta name="twitter:description" content="">
+<meta name="twitter:description" content="2024 春季学期第一次作业总结报告 段晗祈 52285903003
+博客搭建流程 1 博客本地搭建 新建 hugo 博客工程 在下载了 hugo 的目录下使用命令行输入 （hugo release页面：https://github.com/gohugoio/hugo/releases/） ./hugo new site myblog hugo 主题选择 hugo 主页： https://themes.gohugo.io/ 选取主题：m10c （https://themes.gohugo.io/themes/hugo-theme-m10c/） cd myblog git clone https://github.com/vaga/hugo-theme-m10c.git themes/m10c 配置修改 在 hugo.toml 中修改配置 &lt;!-- 指定主题 --&gt; theme = &#34;m10c&#34; &lt;!-- 设置目录中的首页，文章列表和关于页面 --&gt; [menu] [[menu.main]] identifier = &#34;home&#34; name = &#34;Home&#34; url = &#34;/&#34; weight = 1 [[menu.main]] identifier = &#34;tags&#34; name = &#34;Tags&#34; url = &#34;/tags/&#34; weight = 2 [[menu.">
 
-    <meta property="og:url" content="https://example.org/post/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%80%BB%E7%BB%93%E6%8A%A5%E5%91%8A/">
+    <meta property="og:url" content="http://localhost:1313/post/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%80%BB%E7%BB%93%E6%8A%A5%E5%91%8A/">
   <meta property="og:site_name" content="段晗祈">
   <meta property="og:title" content="博客搭建总结报告">
-  <meta property="og:description" content="深度学习在读 PhD">
+  <meta property="og:description" content="2024 春季学期第一次作业总结报告 段晗祈 52285903003
+博客搭建流程 1 博客本地搭建 新建 hugo 博客工程 在下载了 hugo 的目录下使用命令行输入 （hugo release页面：https://github.com/gohugoio/hugo/releases/） ./hugo new site myblog hugo 主题选择 hugo 主页： https://themes.gohugo.io/ 选取主题：m10c （https://themes.gohugo.io/themes/hugo-theme-m10c/） cd myblog git clone https://github.com/vaga/hugo-theme-m10c.git themes/m10c 配置修改 在 hugo.toml 中修改配置 &amp;lt;!-- 指定主题 --&amp;gt; theme = &amp;#34;m10c&amp;#34; &amp;lt;!-- 设置目录中的首页，文章列表和关于页面 --&amp;gt; [menu] [[menu.main]] identifier = &amp;#34;home&amp;#34; name = &amp;#34;Home&amp;#34; url = &amp;#34;/&amp;#34; weight = 1 [[menu.main]] identifier = &amp;#34;tags&amp;#34; name = &amp;#34;Tags&amp;#34; url = &amp;#34;/tags/&amp;#34; weight = 2 [[menu.">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="article">
   <meta property="article:section" content="post">
@@ -32,13 +34,10 @@
   </head>
   <body>
     <header class="app-header">
-      <a href="https://example.org/"><img class="app-header-avatar" src="/avatar.jpg" alt="段晗祈" /></a>
+      <a href="http://localhost:1313/"><img class="app-header-avatar" src="/avatar.jpg" alt="段晗祈" /></a>
       <span class="app-header-title">段晗祈</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
              - 
           
           <a class="app-header-menu-item" href="/about/">About</a>
@@ -73,12 +72,151 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          0 min read
+          2 min read
         </div>
       </div>
     </header>
     <div class="post-content">
-      
+      <p>2024 春季学期第一次作业总结报告
+段晗祈 52285903003</p>
+<h2 id="博客搭建流程">博客搭建流程</h2>
+<h3 id="1-博客本地搭建">1 博客本地搭建</h3>
+<ul>
+<li>新建 hugo 博客工程
+在下载了 hugo 的目录下使用命令行输入
+（hugo release页面：https://github.com/gohugoio/hugo/releases/）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./hugo new site myblog
+</span></span></code></pre></div><ul>
+<li>hugo 主题选择
+hugo 主页： <a href="https://themes.gohugo.io/">https://themes.gohugo.io/</a>
+选取主题：m10c （https://themes.gohugo.io/themes/hugo-theme-m10c/）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd myblog
+</span></span><span style="display:flex;"><span>git clone https://github.com/vaga/hugo-theme-m10c.git themes/m10c
+</span></span></code></pre></div><ul>
+<li>配置修改
+在 hugo.toml 中修改配置</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;!</span><span style="color:#a6e22e">--</span> <span style="color:#960050;background-color:#1e0010">指定主题</span> <span style="color:#a6e22e">--</span><span style="color:#960050;background-color:#1e0010">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">theme</span> = <span style="color:#e6db74">&#34;m10c&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;!</span><span style="color:#a6e22e">--</span> <span style="color:#960050;background-color:#1e0010">设置目录中的首页，文章列表和关于页面</span> <span style="color:#a6e22e">--</span><span style="color:#960050;background-color:#1e0010">&gt;</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">menu</span>]
+</span></span><span style="display:flex;"><span>  [[<span style="color:#a6e22e">menu</span>.<span style="color:#a6e22e">main</span>]]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">identifier</span> = <span style="color:#e6db74">&#34;home&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;Home&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">url</span> = <span style="color:#e6db74">&#34;/&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">weight</span> = <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  [[<span style="color:#a6e22e">menu</span>.<span style="color:#a6e22e">main</span>]]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">identifier</span> = <span style="color:#e6db74">&#34;tags&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;Tags&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">url</span> = <span style="color:#e6db74">&#34;/tags/&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">weight</span> = <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  [[<span style="color:#a6e22e">menu</span>.<span style="color:#a6e22e">main</span>]]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">identifier</span> = <span style="color:#e6db74">&#34;about&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;About&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">url</span> = <span style="color:#e6db74">&#34;/about/&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">weight</span> = <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;!</span><span style="color:#a6e22e">--</span> <span style="color:#960050;background-color:#1e0010">个人信息和</span><span style="color:#a6e22e">SNS</span><span style="color:#960050;background-color:#1e0010">链接</span> <span style="color:#a6e22e">--</span><span style="color:#960050;background-color:#1e0010">&gt;</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">params</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">author</span> = <span style="color:#e6db74">&#34;段晗祈&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;&#34;</span><span style="color:#960050;background-color:#1e0010">深度学习在读</span> <span style="color:#a6e22e">PhD</span><span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">menu_item_separator</span> = <span style="color:#e6db74">&#34; - &#34;</span>
+</span></span><span style="display:flex;"><span>  [[<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">social</span>]]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">icon</span> = <span style="color:#e6db74">&#34;github&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;Github&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">url</span> = <span style="color:#e6db74">&#34;https://github.com/AquariusAQ&#34;</span>
+</span></span></code></pre></div><ul>
+<li>创建文章
+在命令行中输入</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>../hugo new post/博客搭建总结报告.md
+</span></span></code></pre></div><p>然后在 .\myblog\content\post\博客搭建总结报告.md 中将 draft 改为 false</p>
+<ul>
+<li>本地启动
+在命令行中输入</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>../hugo.exe server
+</span></span></code></pre></div><p>此时便可以看到主页以及文章列表</p>
+<h3 id="2-博客-github-部署">2 博客 github 部署</h3>
+<ul>
+<li>创建仓库</li>
+</ul>
+<p>在 github 上创建一个 repository，命名为 AquariusAQ.github.io</p>
+<ul>
+<li>本地编译博客
+在命令行中输入</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>../hugo
+</span></span></code></pre></div><p>此时，public 文件夹内便是编译好的静态页面</p>
+<ul>
+<li>推送静态页面到 github
+在命令行中输入</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 初始化git</span>
+</span></span><span style="display:flex;"><span>git init
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加远程仓库</span>
+</span></span><span style="display:flex;"><span>git remote add origin https://github.com/AquariusAQ/AquariusAQ.github.io.git
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加本地修改</span>
+</span></span><span style="display:flex;"><span>git add .
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 提交本地修改</span>
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;init&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 推送本地修改到远程</span>
+</span></span><span style="display:flex;"><span>git push --set-upstream origin master
+</span></span></code></pre></div><ul>
+<li>配置 .gitmodules
+在项目文件夹中创建 .gitmodules 文件，并写入主题仓库地址：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">submodule</span> <span style="color:#e6db74">&#34;themes/m10c&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">path</span> = <span style="color:#a6e22e">themes</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#a6e22e">m10c</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">url</span> = <span style="color:#a6e22e">https</span><span style="color:#960050;background-color:#1e0010">://</span><span style="color:#a6e22e">github</span>.<span style="color:#a6e22e">com</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#a6e22e">vaga</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#a6e22e">hugo-theme-m10c</span>
+</span></span></code></pre></div><p>接着推送到github</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 先拉下修改</span>
+</span></span><span style="display:flex;"><span>git pull
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加远程仓库</span>
+</span></span><span style="display:flex;"><span>git remote add origin https://github.com/AquariusAQ/AquariusAQ.github.io.git
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加本地修改</span>
+</span></span><span style="display:flex;"><span>git add .
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 提交本地修改</span>
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;update .gitmodules&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 推送本地修改到远程</span>
+</span></span><span style="display:flex;"><span>git push 
+</span></span></code></pre></div><ul>
+<li>github 仓库设置
+<ul>
+<li>在 AquariusAQ.github.io 仓库的 Settings 中的 Pages 选项卡里，在 Build and deployment-&gt;Source 中选择 GitHub Actions，从而使 github 来构建页面</li>
+<li>点击 browse all workflows，搜索 hugo 并点击 configure，保持默认的配置文件，点击 Commit changes 提交修改</li>
+</ul>
+</li>
+</ul>
+<p>等待编译结束后，便可以在 <a href="https://aquariusaq.github.io/">https://aquariusaq.github.io/</a> 看到部署好的博客页面</p>
+<h3 id="3-博客内容填充">3 博客内容填充</h3>
+<p>使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>../hugo new about.md
+</span></span><span style="display:flex;"><span>../hugo new post/new.md
+</span></span></code></pre></div><p>等方式，创建新的博客并编写，详细内容可进入 <a href="https://aquariusaq.github.io/">https://aquariusaq.github.io/</a> 阅读。</p>
+<h2 id="博客主题及其选取原因">博客主题及其选取原因</h2>
+<p>选取的主题是：m10c （https://themes.gohugo.io/themes/hugo-theme-m10c/）</p>
+<p>该主题使用极简化风格，鲜明简洁地展示了个人主要信息、关于页跳转，以及右侧的文章列表，并且可以使用 markdown 语法进行编写，部署快速。</p>
+<h2 id="博客页面布局及其设计思路">博客页面布局及其设计思路</h2>
+<p>左侧为个人信息、主页跳转、关于页跳转，右侧是文章列表。这样的布局兼具信息量充足、跳转方便、界面简洁、陈列美观等优点。
+这种布局左侧为首页，右侧为文章列表，合二为一，既方便阅览，又排版美观。</p>
+<h2 id="博客功能实现及其技术选择">博客功能实现及其技术选择</h2>
+<p>选择了 hugo 博客，其作用类似一个脚手架，在保证博客必要功能的基础上，可以方便地将 markdown 博文内容和各种主题无缝衔接。
+部署上使用了 github 的网站搭建功能，并且 github action 支持 hugo 编译，将这一步骤交给 github 进行，进一步简化了搭建和博文发布流程。
+搭建过程详见博客搭建流程。</p>
+<h2 id="博客制作过程中遇到的问题及其解决方法">博客制作过程中遇到的问题及其解决方法</h2>
+<ul>
+<li>启动时失败：ERROR TOCSS: failed to transform &ldquo;css/main.scss&rdquo; (text/x-scss). Check your Hugo installation; you need the extended version to build SCSS/SASS with transpiler set to &rsquo;libsass&rsquo;.: this feature is not available in your current Hugo version, see <a href="https://goo.gl/YMrWcn">https://goo.gl/YMrWcn</a> for more information</li>
+</ul>
+<p>hugo 扩展版才能将主题中使用到的 scss 编译为 css，因此需要卸载 hugo 标准版，安装扩展版本。</p>
+<ul>
+<li>部署到 github 后 build 失败：
+Error: fatal: No url found for submodule path &rsquo;themes/m10c&rsquo; in .gitmodules
+Error: The process &lsquo;/usr/bin/git&rsquo; failed with exit code 128</li>
+</ul>
+<p>这是因为使用到了主题项目作为该 github 项目的子模块，因此需要在 .gitmodules 文件中添加该主题的 github 项目地址</p>
+
     </div>
     <div class="post-footer">
       

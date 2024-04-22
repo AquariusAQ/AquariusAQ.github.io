@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <title>C&#43;&#43;STL之unordered_map用法简析,从造轮子到用轮子 // 段晗祈</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.125.2">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="段晗祈" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.5b1fcc8902588589c4767187402a3c29f8b8d7a6fdef6d9f8f77045bb0d14fee.css" />
+    
+
+    
+  
+
+
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="C&#43;&#43;STL之unordered_map用法简析,从造轮子到用轮子">
+<meta name="twitter:description" content="原发布于2020年5月15日 http://blog.gensou.cc/archives/346
+unordered_map是C&#43;&#43;11中加入的，以哈希表为索引方式的STL结构。与map不同，unordered_map寻找索引的值的理论时间复杂度仅为O(1)，而依靠红黑树的map是O(logn)。
+要理解unordered_map的运作原理，首先来造个轮子，写个自己的哈希表寻址结构。
+Hash值是每个数据某个数据（比如是key）通过运算得到的某个数值，将该数据放进整个结构（比如数组）中以这个Hash值为索引的地址中，就类似于把数据倒入桶中。当需要找到某个key值对应的数据时，也同样算出Hash值，然后直接在结构中寻找就可以。由于数组的地址连贯性，Hash值作为索引可以直接计算出数据所在的地址，因此时间复杂度仅为O(1)。
+造个Hash Table试试 首先是用到的数据的结构Record：
+class Record { private: int key; int value; public: int the_key() { return key; } int the_value() { return value; } Record() { key = value = -1; } Record(int k, int v) : key(k), value(v) {} bool operator==(Record r) { return the_value() == r.the_value(); } //相等 Record operator=(Record r); //赋值构造函数 //...以及更多需要的函数 }; 定义好了key和value，写好构造函数并且重载部分需要的操作符（具体略）。然后是利用Hash值寻址的结构hash_table。
+enum Error_code { not_present, overflow, deplicate_error, success }; const int hash_size = 100; class hash_table { private: Record table[hash_size]; int hash(Record r)； //获得某个Record的Hash值 bool is_empty(int index) { return table[index].">
+
+    <meta property="og:url" content="http://localhost:1313/post/c&#43;&#43;stl%E4%B9%8Bunordered_map%E7%94%A8%E6%B3%95%E7%AE%80%E6%9E%90%E4%BB%8E%E9%80%A0%E8%BD%AE%E5%AD%90%E5%88%B0%E7%94%A8%E8%BD%AE%E5%AD%90/">
+  <meta property="og:site_name" content="段晗祈">
+  <meta property="og:title" content="C&#43;&#43;STL之unordered_map用法简析,从造轮子到用轮子">
+  <meta property="og:description" content="原发布于2020年5月15日 http://blog.gensou.cc/archives/346
+unordered_map是C&#43;&#43;11中加入的，以哈希表为索引方式的STL结构。与map不同，unordered_map寻找索引的值的理论时间复杂度仅为O(1)，而依靠红黑树的map是O(logn)。
+要理解unordered_map的运作原理，首先来造个轮子，写个自己的哈希表寻址结构。
+Hash值是每个数据某个数据（比如是key）通过运算得到的某个数值，将该数据放进整个结构（比如数组）中以这个Hash值为索引的地址中，就类似于把数据倒入桶中。当需要找到某个key值对应的数据时，也同样算出Hash值，然后直接在结构中寻找就可以。由于数组的地址连贯性，Hash值作为索引可以直接计算出数据所在的地址，因此时间复杂度仅为O(1)。
+造个Hash Table试试 首先是用到的数据的结构Record：
+class Record { private: int key; int value; public: int the_key() { return key; } int the_value() { return value; } Record() { key = value = -1; } Record(int k, int v) : key(k), value(v) {} bool operator==(Record r) { return the_value() == r.the_value(); } //相等 Record operator=(Record r); //赋值构造函数 //...以及更多需要的函数 }; 定义好了key和value，写好构造函数并且重载部分需要的操作符（具体略）。然后是利用Hash值寻址的结构hash_table。
+enum Error_code { not_present, overflow, deplicate_error, success }; const int hash_size = 100; class hash_table { private: Record table[hash_size]; int hash(Record r)； //获得某个Record的Hash值 bool is_empty(int index) { return table[index].">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-04-22T15:42:29+08:00">
+    <meta property="article:modified_time" content="2024-04-22T15:42:29+08:00">
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="http://localhost:1313/"><img class="app-header-avatar" src="/avatar.jpg" alt="段晗祈" /></a>
+      <span class="app-header-title">段晗祈</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/about/">About</a>
+      </nav>
+      <p>深度学习在读 PhD</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/AquariusAQ" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">C&#43;&#43;STL之unordered_map用法简析,从造轮子到用轮子</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Apr 22, 2024
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          3 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p><em>原发布于2020年5月15日</em>
+<a href="http://blog.gensou.cc/archives/346">http://blog.gensou.cc/archives/346</a></p>
+<p>unordered_map是C++11中加入的，以哈希表为索引方式的STL结构。与map不同，unordered_map寻找索引的值的理论时间复杂度仅为O(1)，而依靠红黑树的map是O(logn)。</p>
+<p>要理解unordered_map的运作原理，首先来造个轮子，写个自己的哈希表寻址结构。</p>
+<p>Hash值是每个数据某个数据（比如是key）通过运算得到的某个数值，将该数据放进整个结构（比如数组）中以这个Hash值为索引的地址中，就类似于把数据倒入桶中。当需要找到某个key值对应的数据时，也同样算出Hash值，然后直接在结构中寻找就可以。由于数组的地址连贯性，Hash值作为索引可以直接计算出数据所在的地址，因此时间复杂度仅为O(1)。</p>
+<p>造个Hash Table试试
+首先是用到的数据的结构Record：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Record</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> key;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> value;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> the_key() { <span style="color:#66d9ef">return</span> key; }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">the_value</span>() { <span style="color:#66d9ef">return</span> value; }
+</span></span><span style="display:flex;"><span>  Record() { key <span style="color:#f92672">=</span> value <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; }
+</span></span><span style="display:flex;"><span>  Record(<span style="color:#66d9ef">int</span> k, <span style="color:#66d9ef">int</span> v) <span style="color:#f92672">:</span> key(k), value(v) {}
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">==</span>(Record r) { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">the_value</span>() <span style="color:#f92672">==</span> r.the_value(); } <span style="color:#75715e">//相等
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Record <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(Record r); <span style="color:#75715e">//赋值构造函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">//...以及更多需要的函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>定义好了key和value，写好构造函数并且重载部分需要的操作符（具体略）。然后是利用Hash值寻址的结构hash_table。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Error_code</span> { not_present, overflow, deplicate_error, success };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> hash_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">hash_table</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  Record table[hash_size];
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">hash</span>(Record r)<span style="color:#960050;background-color:#1e0010">；</span> <span style="color:#75715e">//获得某个Record的Hash值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bool</span> is_empty(<span style="color:#66d9ef">int</span> index) { <span style="color:#66d9ef">return</span> table[index].the_key() <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; } <span style="color:#75715e">//查询table数组中index位上是否已经有数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  hash_table();
+</span></span><span style="display:flex;"><span>  hash_table(<span style="color:#66d9ef">const</span> hash_table<span style="color:#f92672">&amp;</span> ht);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">//...以及更多构造函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Error_code <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">const</span> Record<span style="color:#f92672">&amp;</span> r); <span style="color:#75715e">//插入某个Record的函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Error_code <span style="color:#a6e22e">retrive</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> key, Record<span style="color:#f92672">&amp;</span> r); <span style="color:#75715e">//查询表中是否存在某个key值，并且存在r中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Error_code <span style="color:#a6e22e">remove</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> key); <span style="color:#75715e">//删去该key值对应的Record
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Error_code <span style="color:#a6e22e">find_key</span>(<span style="color:#66d9ef">int</span> value, <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> result); <span style="color:#75715e">//寻找第一个value匹配key
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Error_code <span style="color:#a6e22e">find_value</span>(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> result); <span style="color:#75715e">//寻找key对应的value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">//...以及更多增删查改的操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  hash_table <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> hash_table<span style="color:#f92672">&amp;</span> ht); <span style="color:#75715e">//赋值构造函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">//...以及更多重载运算符 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>其中，灵魂部分便是hash(Record r)，这个函数对r的key计算得到其Hash值，后面的函数中，增删查改等所有需要从key来寻找到地址的操作，都需要用到这个函数。</p>
+<p>例：用取余运算作为Hash函数
+//简单的采用取余得到的结果作为Hash值</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> hash_table<span style="color:#f92672">::</span>hash(Record r) 
+</span></span><span style="display:flex;"><span>{ 
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> r.the_key() <span style="color:#f92672">%</span> hash_size; 
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//每次insert一个Record，便先算出其hash值，然后根据索引存储数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Error_code hash_table<span style="color:#f92672">::</span>insert(<span style="color:#66d9ef">const</span> Record<span style="color:#f92672">&amp;</span> r)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> hash(r), k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;</span> hash_size; (index <span style="color:#f92672">=</span> (index <span style="color:#f92672">==</span> hash_size <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>), k<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (is_empty(index))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      table[index] <span style="color:#f92672">=</span> r;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> success;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> overflow;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//通过key寻找value也同样先算出Hash值，载根据索引查询数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Error_code hash_table<span style="color:#f92672">::</span>find_value(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> result)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> hash(Record(key, <span style="color:#ae81ff">0</span>)); index <span style="color:#f92672">&lt;</span> hash_size; index<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (is_empty(index))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> not_present;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (table[index].the_key() <span style="color:#f92672">==</span> key)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      result <span style="color:#f92672">=</span> table[index].the_value();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> success;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//...以及更多函数
+</span></span></span></code></pre></div><p>这里需要注意的一点是，当数据发生冲突，即Hash值相等时，这里采用的办法是从这个地址开始不断向后寻找下一个可以存储数据的地址，然后存下，如果全满则返回overflow；取值的时候也类似。这种处理冲突的办法称为开放寻址法。</p>
+<p>Unordered_map之用法
+声明
+像其他STL一样，unordered_map已经内置了很多方法；不过，它还可以传入更多的参数，先看看其定义</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Key</span>,                  <span style="color:#75715e">// unordered_map::key_type
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>,                    <span style="color:#75715e">// unordered_map::mapped_type
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Hash</span> <span style="color:#f92672">=</span> hash<span style="color:#f92672">&lt;</span>Key<span style="color:#f92672">&gt;</span>,     <span style="color:#75715e">// unordered_map::hasher
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Pred</span> <span style="color:#f92672">=</span> equal_to<span style="color:#f92672">&lt;</span>Key<span style="color:#f92672">&gt;</span>, <span style="color:#75715e">// unordered_map::key_equal
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Alloc</span> <span style="color:#f92672">=</span> allocator<span style="color:#f92672">&lt;</span> pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> Key,T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span>  <span style="color:#75715e">// unordered_map::allocator_type
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">unordered_map</span>;
+</span></span></code></pre></div><p>第三到第五个参数都可以省略。第一个参数是Key值，第二个参数是存储的数据，第五个参数是空间配置器，没必要修改。这里聊聊第三第四两个参数。
+其中，第三个参数需要一个包含取Hash值的函数，取的对象是第一个参数，即为数据的key值。这里依然以取余运算为Hash函数为例。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">my_hash</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">operator</span>()(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> value) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> value <span style="color:#f92672">%</span> hash_len;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>struct就是默认为public的class。为了简便，直接重载()运算符，这样，每个my_hash的对象都可以相当于一个函数名，用()传入参数，调用取Hash值的函数。
+接下来是第四个参数，它需要包含一个判断key值是否相等的函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">my_compare</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">operator</span>()(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> x, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> y) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">==</span> y;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>也同样的道理，重载()运算符即可。
+有了这样自定义好的两个类，便可以创建unordered_map了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, my_hash, my_compare<span style="color:#f92672">&gt;</span> umap;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//声明了一个key值为int，数据也是int，取Hash值的方法的类为my_hash，判断key值是否相等的方法的类为my_compare的unordered_map
+</span></span></span></code></pre></div><p>当然，这个例子中的my_hash和my_compare也是可以省略的，因为int型是可以直接比较的，默认的比较函数可以工作；unordered_map也内置了计算Hash值的方法。</p>
+<p>方法
+首先，键值对在unordered_map中的每个元素是pair&lt;const Key, T&gt;的模板类的实例化的对象，每一个pair中first属性是其key，second属性是其value。</p>
+<p>另外，后一个insert或emplace入的的同key元素将被忽略，不会覆盖原有的value</p>
+<ul>
+<li>unordered_map::begin, end, cbegin, cend 头迭代器，超尾迭代器，const头迭代器，const超尾迭代器</li>
+<li>unordered_map::operator= 赋值构造函数，可以传入另一个unordered_map；移动构造函数，传入一个unordered_map右值；初始化列表，用直接量的列表赋值</li>
+<li>unordered_map::operator[] 其行为类似数组，以key为索引，可以读写值</li>
+<li>um3[“z”] = 5;</li>
+<li>um3[“y”] = um3[“z”];</li>
+<li>unordered_map::insert 插入一个或多个键值对</li>
+<li>um.insert(pair&lt;string, int&gt;{ “a”, 5 }); //使用直接量</li>
+<li>um.insert({ “a”, 5 }); //省略类型</li>
+<li>um2.insert(um.begin(), um.end()); //使用迭代器</li>
+<li>unordered_map::emplace 传入参数列表，自动创建一个键值对</li>
+<li>um.emplace( “c”, 10 ); //添加键值对pair&lt;string, int&gt;{ “c”, 10 }</li>
+<li>unordered_map::emplace_hint 传入一个迭代器和参数列表，自动（优先从该迭代器的位置）创建一个键值对，并且当成功插入时，返回指向插入元素的迭代器；因为key已存在而插入失败时，返回指向该key所在元素的迭代器（值不会覆盖）</li>
+<li>um.emplace_hint(um.begin(), “a”, 10); //返回指向{ “a”, 5 }的迭代器</li>
+<li>unordered_map::at 获得传入key对应的值</li>
+<li>um.at(“a”); //返回5</li>
+<li>unordered_map::find 寻找传入key对应的迭代器</li>
+<li>um.find(“a”); //返回指向pair&lt;string, int&gt;{ “a”, 5 }的迭代器</li>
+<li>um.find(“b”); //key不存在，返回um.end()</li>
+<li>unordered_map::erase 删去容器中的部分元素，可以传入key的值、某个迭代器、或者两个迭代器组成的范围</li>
+<li>um2.erase(um2.begin(), um2.end()); //这个例子相当于clear</li>
+<li>unordered_map::clear 清空容器</li>
+<li>unordered_map::swap 传入另一个unordered_map，交换两个容器的值</li>
+<li>unordered_map::empty 返回容器是否为空的布尔值</li>
+<li>unordered_map::count 计算传入的key在容器中存在的个数；事实上因为key是唯一的，只能得到0或1</li>
+<li>um.count(“a”); //返回1</li>
+<li>um.count(“b”); //返回0</li>
+<li>unordered_map :: hash_function 返回该容器使用的Hash函数的对象（可以当做函数指针使用）</li>
+<li>auto fn = um.hash_function();</li>
+<li>fn(“d”); //返回3775669363</li>
+<li>unordered_map :: key_eq 无参数，返回一个需要传入两个参数的函数，给该函数传入两个key，返回两个key是否Hash值相等的布尔值</li>
+<li>um.key_eq()(“a”, “A”); //返回false</li>
+<li>unordered_map::bucket 获得传入的key所在的桶的编号，传入的key不一定要在容器中已存在</li>
+<li>um.bucket(“a”); //返回4</li>
+<li>um.bucket(“b”); //返回5</li>
+<li>unordered_map::bucket_count 返回容器的桶的个数</li>
+<li>um.bucket_count(); //返回8</li>
+<li>unordered_map::bucket_size 传入一个unsigned int，获得这个编号的桶内的元素数</li>
+<li>um.bucket_size(4); //返回1</li>
+<li>um.bucket_size(5); //返回0</li>
+<li>unordered_map::size, max_size, load_factor, max_load_factor 该容器的元素个数，最大元素个数，已加载的桶的比例，最大加载的桶的比例，其中，load_factor = size / bucket_count</li>
+<li>unordered_map::reserve 传入一个unsigned int，将容器中的bucket_count设置为最适合的包含至少n个元素的大小</li>
+<li>unordered_map :: rehash 传入一个unsigned int，将容器中的bucket_count设置为n（或更多）</li>
+<li>unordered_map::equal_range 传入一个key，返回寻找到含有这个key的键值对所组成一个范围。返回值的first属性是头键值对，second属性是尾键值对。因为key是唯一的，返回的范围自然也只有一个元素，该方法在unordered_multimap中更常用。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> range <span style="color:#f92672">=</span> um.equal_range(<span style="color:#960050;background-color:#1e0010">“</span>a<span style="color:#960050;background-color:#1e0010">”</span>);
+</span></span><span style="display:flex;"><span>for_each( range.first, range,second, [](<span style="color:#66d9ef">auto</span> x) {cout <span style="color:#f92672">&lt;&lt;</span> x.first <span style="color:#f92672">&lt;&lt;</span> x.second; } <span style="color:#75715e">//输出a5
+</span></span></span></code></pre></div><p>这里使用了for_each语句，给定头尾和执行的函数，并且用Lambda表达式作为匿名函数，简单实现将range中所有元素（只有一个）进行输出
+其中x的类型是unordered_map::value_type</p>
+<ul>
+<li>unordered_map::get_allocator 返回allocator_type</li>
+</ul>
+<p>本文参考了 <a href="http://www.cplusplus.com/reference/unordered_map/">http://www.cplusplus.com/reference/unordered_map/</a></p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
